@@ -84,54 +84,6 @@ Feature: Around hooks
 
       """
 
-  Scenario: Mixing Around, Before, and After hooks
-    Given a standard Cucumber project directory structure
-    And a file named "features/step_definitions/steps.rb" with:
-      """
-      Then /^the Around hook is called around Before and After hooks$/ do
-        $hooks_called.should == ['Around', 'Before']
-      end
-      """
-    And a file named "features/support/hooks.rb" with:
-      """
-      Around do |scenario, block|
-        $hooks_called ||= []
-        $hooks_called << 'Around'
-        block.call
-        $hooks_called << 'Around'
-        $hooks_called.should == ['Around', 'Before', 'After', 'Around']
-      end
-
-      Before do |scenario|
-        $hooks_called ||= []
-        $hooks_called << 'Before'
-      end
-
-      After do |scenario|
-        $hooks_called ||= []
-        $hooks_called << 'After'
-        $hooks_called.should == ['Around', 'Before', 'After']
-      end
-      """
-    And a file named "features/f.feature" with:
-      """
-      Feature: Around hooks
-        Scenario: Mixing Around, Before, and After hooks
-          Then the Around hook is called around Before and After hooks
-      """
-    When I run cucumber features/f.feature
-    Then it should pass with
-      """
-      Feature: Around hooks
-
-        Scenario: Mixing Around, Before, and After hooks               # features/f.feature:2
-          Then the Around hook is called around Before and After hooks # features/step_definitions/steps.rb:1
-
-      1 scenario (1 passed)
-      1 step (1 passed)
-
-      """
-
   Scenario: Around hooks with tags
     Given a standard Cucumber project directory structure
     And a file named "features/step_definitions/steps.rb" with:
