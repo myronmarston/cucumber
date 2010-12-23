@@ -2,7 +2,9 @@ $:.unshift(File.dirname(__FILE__) + '/../lib')
 require 'cucumber/rake/task'
 require 'cucumber/platform'
 
-Cucumber::Rake::Task.new(:features)
+Cucumber::Rake::Task.new(:features) do |t|
+  t.profile = 'wip'
+end
 
 Cucumber::Rake::Task.new(:legacy_features) do |t|
   t.cucumber_opts = %w{legacy_features}
